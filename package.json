@@ -4,7 +4,7 @@
   "description": "An app to check current network ping.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,10 @@
     "electron"
   ],
   "dependencies": {
-    "electron": "^8.2.3"
+    "chart.js": "^2.9.3",
+    "custom-electron-titlebar": "^3.2.2-hotfix62",
+    "electron": "^8.2.3",
+    "electron-titlebar": "0.0.3",
+    "ping": "^0.2.3"
   }
 }

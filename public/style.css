@@ -1,1 +1,29 @@
-html {}
+* {
+    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+@font-face {
+    font-family: "BalooBhaina";
+    src: url("../BalooBhaina.ttf")
+}
+
+html {
+    
+    background: #2e2e2e;
+}
+.titlebar.windows {
+    font-family: "BalooBhaina";
+}
+canvas {
+    position: absolute;
+    left: 0px;
+    top: 20px;
+
+}
+.action-menu-item {
+    padding: 0px;
+}
+.container-after-titlebar {
+    overflow: hidden;
+}
