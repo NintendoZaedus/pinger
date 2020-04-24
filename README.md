@@ -1,2 +1,3 @@
-# pinger
-Just a simple app to show ping.
+# Pinger
+
+An app to check current network ping.
