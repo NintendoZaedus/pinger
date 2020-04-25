@@ -4,7 +4,9 @@
   "description": "An app to check current network ping.",
   "main": "app.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-packager . --icon ./build/icon.ico --asar --overwrite --out dist",
+    "installer": "node build.js"
   },
   "repository": {
     "type": "git",
@@ -24,8 +26,11 @@
   "dependencies": {
     "chart.js": "^2.9.3",
     "custom-electron-titlebar": "^3.2.2-hotfix62",
-    "electron": "^8.2.3",
-    "electron-titlebar": "0.0.3",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-winstaller": "^4.0.0",
     "ping": "^0.2.3"
+  },
+  "devDependencies": {
+    "electron": "^8.2.3"
   }
 }

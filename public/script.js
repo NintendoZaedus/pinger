@@ -3,6 +3,8 @@ const ping = require('ping');
 const { remote, ipcRenderer } = require('electron');
 const { Chart } = require('chart.js');
 
+
+
 let interval;
 const templateStop = 
 [
@@ -29,9 +31,17 @@ const templateStart = [
         label: "File",
         submenu: [
             {
-                label: "Start",
+                label: "New",
                 accelerator: 'CmdOrCtrl+S',
                 click: () => remote.BrowserWindow.getAllWindows()[0].webContents.send("start")
+            },
+            {
+                label: "Resume",
+                accelerator: "CmdOrCtrl+E",
+                click: () => {
+                    bar.updateMenu(remote.Menu.buildFromTemplate(templateStop))
+                    interval = setInterval(loop, 500);
+                }
             }
         ]
     },
@@ -43,6 +53,8 @@ const templateStart = [
         ]
     }
 ]
+
+
 
 var bar = new customTitlebar.Titlebar({
     backgroundColor: customTitlebar.Color.fromHex('#404040'),
@@ -97,31 +109,31 @@ function genLabels(n) {
     }
     return arr;
 }
+
+async function loop() {
+    var resp = await ping.promise.probe("krunker.io");
+    console.log(resp.time)
+    if(myLineChart.data.datasets[0].data.length > 40) myLineChart.data.datasets[0].data.pop();
+    myLineChart.data.labels = genLabels(myLineChart.data.datasets[0].data.length - 1);
+    myLineChart.data.datasets[0].data.unshift(
+        {
+            t: "Ping",
+            y: parseFloat(resp.time),
+            x: myLineChart.data.datasets[0].data.length,
+            f: false
+        }
+    );
+    myLineChart.update()
+}
 function start() {
+    myLineChart.data.labels = []
+    myLineChart.data.datasets[0].data = []
     bar.updateMenu(remote.Menu.buildFromTemplate(templateStop))
-    interval = setInterval(async () => {
-        var resp = await ping.promise.probe("krunker.io");
-        console.log(resp.time)
-        if(myLineChart.data.datasets[0].data.length > 40) myLineChart.data.datasets[0].data.pop();
-        myLineChart.data.labels = genLabels(myLineChart.data.datasets[0].data.length - 1);
-        myLineChart.data.datasets[0].data.unshift(
-            {
-                t: "Ping",
-                y: parseFloat(resp.time),
-                x: myLineChart.data.datasets[0].data.length,
-                f: false
-            }
-        );
-        myLineChart.update()
-    }, 500);
+    interval = setInterval(loop, 500);
 }
 ipcRenderer.on("start", start)
 
 ipcRenderer.on("stop", () => {
     clearInterval(interval);
-    myLineChart.data.labels = []
-    myLineChart.data.datasets[0].data = []
     bar.updateMenu(remote.Menu.buildFromTemplate(templateStart))
 })
-
-window.onload = start;
