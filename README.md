@@ -10,7 +10,7 @@ npm run-script build
 npm run-script installer
 ```
 
-Two folders will be created inside the dist folder.
+Two folders will be created inside the `dist` folder.
 
 * An installer folder
 * A build folder
