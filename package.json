@@ -31,7 +31,7 @@
     "ping": "^0.2.3"
   },
   "devDependencies": {
-    "electron": "^8.5.0",
+    "electron": "^8.5.1",
     "lodash": ">=4.17.19"
   }
 }
